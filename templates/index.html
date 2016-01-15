@@ -1,11 +1,27 @@
 <html>
     <head>
         <title>Nexa playground</title>
+        <style>
+            h1, a, p {
+                font-size: 5em;
+            }
+            .center {
+                margin: auto;
+                width: 70%;
+                border: 1px solid;
+                padding: 10px;
+            }
+        </style>
     </head>
     <body>
-        <h1>{% if on %}ON{% else %}OFF{% endif %}</h1>
-        <p>Send command:</p>
-        <a href="/on" style="color:green">ON</a>
-        <a href="/off" style="color:red">OFF</a>
+        {% for receiver in range(1,4) %}
+        <div id="{{ receiver }}" class="center">
+            <h1>Receiver {{ receiver }}</h1>
+            <p {% if states[receiver-1] %} style="color: green">ON{% else %} style="color: red;">OFF{% endif %}</h1>
+            <p>Send command:</p>
+            <a style="padding: 10px" href="/on/{{ receiver }}">ON</a>
+            <a style="padding: 10px" href="/off/{{ receiver }}">OFF</a>
+        </div>
+        {% endfor %}
     </body>
 </html>
