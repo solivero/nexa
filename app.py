@@ -41,7 +41,7 @@ def send_signal(state, id):
         on_off = "off"
     cmd = "piHomeEasy {} {} {} {}".format(pin, transmitter, id, on_off)
     print cmd
-    call(["piHomeEasy", str(pin), str(transmitter), str(id), cmd], shell=True)
+    call(cmd, shell=True)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
