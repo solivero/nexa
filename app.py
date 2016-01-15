@@ -34,11 +34,13 @@ def off(id=0):
     #return render_template('index..html', on=state)
 
 def send_signal(state, id):
-    cmd = ""
+    on_off = ""
     if state:
-        cmd = "on"
+        on_off = "on"
     else:
-        cmd = "off"
+        on_off = "off"
+    cmd = "piHomeEasy {} {} {} {}".format(pin, transmitter, id, on_off)
+    print cmd
     call(["piHomeEasy", str(pin), str(transmitter), str(id), cmd], shell=True)
 
 if __name__ == '__main__':
