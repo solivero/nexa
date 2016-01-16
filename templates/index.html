@@ -11,16 +11,44 @@
                 border: 1px solid;
                 padding: 10px;
             }
+            .btn-large {
+                margin: auto;
+                width: 40%;
+                padding: 10px;
+                font-size: 5em;
+            }
         </style>
+        <script>
+            function on(id) {
+                send("on/"+id);
+            }
+            function off(id) {
+                send("off/"+id);
+            }
+            function send(urlEnd) {
+                xhr = new XMLHttpRequest();
+
+                xhr.open('GET',
+                        encodeURI('http://192.168.1.74:5000/'+urlEnd));
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                if (xhr.status === 200 && xhr.responseText !== newName) {
+                    alert('Something went wrong. Hantera det');
+                    }
+                    else if (xhr.status !== 200) {
+                        alert('Request failed.  Returned status of ' + xhr.status);
+                    }
+                };
+                xhr.send();
+            }
+        </script>
     </head>
     <body>
         {% for receiver in range(1,4) %}
         <div id="{{ receiver }}" class="center">
             <h1>Receiver {{ receiver }}</h1>
-            <p {% if states[receiver-1] %} style="color: green">ON{% else %} style="color: red;">OFF{% endif %}</h1>
-            <p>Send command:</p>
-            <a style="padding: 10px" href="/on/{{ receiver }}">ON</a>
-            <a style="padding: 10px" href="/off/{{ receiver }}">OFF</a>
+            <button class="btn-large" style="background-color:green" onclick="on({{ receiver }})">ON</button>
+            <button class="btn-large" style="background-color:red" onclick="off({{ receiver }})">OFF</button>
         </div>
         {% endfor %}
     </body>
